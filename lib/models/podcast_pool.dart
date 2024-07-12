@@ -20,17 +20,13 @@ class PodcastPool extends ChangeNotifier {
 
     /// Search for podcasts with 'widgets' in the title.
     final SearchResult results = await search.charts(
-      limit: 2,
-      country: q.country,
-      explicit: q.explicit,
-      genre: q.genre,
-      queryParams: q.queryParams,
-    );
-    // results.
+        limit: 20,
+        country: q.country,
+        explicit: q.explicit,
+        genre: q.genre,
+        queryParams: q.queryParams,
+        language: q.language);
 
-    /// List the name of each podcast found.
-
-    ///
     _fetchState = results.successful ? FetchState.fetched : FetchState.error;
     _error = results.successful ? null : results.lastError;
 
