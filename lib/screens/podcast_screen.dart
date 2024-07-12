@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:micropod/components/universal_scaffold.dart';
 import 'package:micropod/models/universal_audio_player.dart';
+import 'package:micropod/screens/episode_screen.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:provider/provider.dart';
 
@@ -47,11 +48,11 @@ class _EpisodesWidget extends StatelessWidget {
         separatorBuilder: (_, __) => const Divider(indent: 90),
         itemCount: episodes.length,
         itemBuilder: (context, i) {
-          final episode = episodes[i];
+          final source = episodes[i];
           return ListTile(
             trailing:
                 Consumer<UniversalAudioPlayer>(builder: (context, player, _) {
-              final current = player.source == episode.contentUrl;
+              final current = player.source == source;
               final isPlaying = current && (player.isPlaying || player.loading);
               return IconButton(
                 icon: current && isPlaying
@@ -60,14 +61,14 @@ class _EpisodesWidget extends StatelessWidget {
                 onPressed: () async {
                   final player =
                       Provider.of<UniversalAudioPlayer>(context, listen: false);
-                  await player.setAudio(episode);
+                  await player.setAudio(source);
                 },
               );
             }),
             leading: Image(
-              image: episode.imageUrl == null
+              image: source.imageUrl == null
                   ? const AssetImage('assets/defualt__pooster.jpg')
-                  : NetworkImage(episode.imageUrl!),
+                  : NetworkImage(source.imageUrl!),
               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
                   Container(
                 clipBehavior: Clip.antiAlias,
@@ -76,7 +77,18 @@ class _EpisodesWidget extends StatelessWidget {
                 child: child,
               ),
             ),
-            title: Text(episode.title),
+            title: Text(source.title),
+            onTap: () {
+              final player =
+                  Provider.of<UniversalAudioPlayer>(context, listen: false);
+              player.setAudio(source).then((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EpisodeScreen()),
+                );
+              });
+            },
           );
         });
   }
