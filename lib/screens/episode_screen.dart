@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:micropod/components/img_placeholder.dart';
 import 'package:micropod/models/universal_audio_player.dart';
 import 'package:micropod/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -23,19 +24,22 @@ class EpisodeScreen extends StatelessWidget {
                     children: [
                       Hero(
                         tag: source,
-                        child: Image(
-                          image: source.imageUrl == null
-                              ? const AssetImage('assets/defualt__pooster.jpg')
-                              : NetworkImage(source.imageUrl!),
-                          frameBuilder:
-                              (context, child, frame, wasSynchronouslyLoaded) =>
-                                  Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8)),
-                            child: child,
-                          ),
-                        ),
+                        child: source.imageUrl == null
+                            ? ImgPlaceholder(
+                                preffredLetter: source.title[0],
+                                preffredLetterSize: 64,
+                              )
+                            : Image(
+                                image: NetworkImage(source.imageUrl!),
+                                frameBuilder: (context, child, frame,
+                                        wasSynchronouslyLoaded) =>
+                                    Container(
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: child,
+                                ),
+                              ),
                       ),
                       const SizedBox(height: 8),
                       Text(

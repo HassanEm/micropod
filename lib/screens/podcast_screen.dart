@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:micropod/components/img_placeholder.dart';
 import 'package:micropod/components/universal_scaffold.dart';
 import 'package:micropod/models/universal_audio_player.dart';
 import 'package:micropod/screens/episode_screen.dart';
@@ -65,18 +66,20 @@ class _EpisodesWidget extends StatelessWidget {
                 },
               );
             }),
-            leading: Image(
-              image: source.imageUrl == null
-                  ? const AssetImage('assets/defualt__pooster.jpg')
-                  : NetworkImage(source.imageUrl!),
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
-                  Container(
-                clipBehavior: Clip.antiAlias,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                child: child,
-              ),
-            ),
+            leading: source.imageUrl == null
+                ? ImgPlaceholder(
+                    preffredLetter: source.title[0], preffredLetterSize: 32)
+                : Image(
+                    image: NetworkImage(source.imageUrl!),
+                    frameBuilder:
+                        (context, child, frame, wasSynchronouslyLoaded) =>
+                            Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      child: child,
+                    ),
+                  ),
             title: Text(source.title),
             onTap: () {
               final player =
