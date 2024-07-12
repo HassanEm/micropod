@@ -21,17 +21,20 @@ class EpisodeScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Image(
-                        image: source.imageUrl == null
-                            ? const AssetImage('assets/defualt__pooster.jpg')
-                            : NetworkImage(source.imageUrl!),
-                        frameBuilder:
-                            (context, child, frame, wasSynchronouslyLoaded) =>
-                                Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8)),
-                          child: child,
+                      Hero(
+                        tag: source,
+                        child: Image(
+                          image: source.imageUrl == null
+                              ? const AssetImage('assets/defualt__pooster.jpg')
+                              : NetworkImage(source.imageUrl!),
+                          frameBuilder:
+                              (context, child, frame, wasSynchronouslyLoaded) =>
+                                  Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8)),
+                            child: child,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),

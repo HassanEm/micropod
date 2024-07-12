@@ -111,16 +111,19 @@ class _MiniPlayer extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(8))),
             tileColor: Colors.grey.shade800,
             contentPadding: const EdgeInsets.symmetric(horizontal: 6),
-            leading: Image(
-              image: source.imageUrl == null
-                  ? const AssetImage('assets/defualt__pooster.jpg')
-                  : NetworkImage(source.imageUrl!),
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
-                  Container(
-                clipBehavior: Clip.antiAlias,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                child: child,
+            leading: Hero(
+              tag: source,
+              child: Image(
+                image: source.imageUrl == null
+                    ? const AssetImage('assets/defualt__pooster.jpg')
+                    : NetworkImage(source.imageUrl!),
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
+                    Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                  child: child,
+                ),
               ),
             ),
             title: RichText(
