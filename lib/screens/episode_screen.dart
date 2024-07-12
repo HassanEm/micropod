@@ -125,7 +125,9 @@ class EpisodeScreen extends StatelessWidget {
                                 )
                               ],
                             );
-                          })
+                          }),
+                      const SizedBox(height: 8),
+                      Text(source.description)
                     ],
                   ),
                 ),
