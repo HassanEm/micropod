@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:micropod/components/img_placeholder.dart';
 import 'package:micropod/models/universal_audio_player.dart';
-import 'package:micropod/screens/episode_screen.dart';
+import 'package:micropod/screens/player_screen.dart';
 import 'package:micropod/utils/utils.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:provider/provider.dart';
@@ -153,7 +153,7 @@ class _MiniPlayer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const EpisodeScreen()),
+                MaterialPageRoute(builder: (context) => const PlayerScreen()),
               );
             },
           ),

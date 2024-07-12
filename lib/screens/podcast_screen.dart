@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:micropod/components/img_placeholder.dart';
 import 'package:micropod/components/universal_scaffold.dart';
 import 'package:micropod/models/universal_audio_player.dart';
-import 'package:micropod/screens/episode_screen.dart';
+import 'package:micropod/screens/player_screen.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:provider/provider.dart';
 
@@ -87,8 +87,7 @@ class _EpisodesWidget extends StatelessWidget {
               player.setAudio(source).then((_) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const EpisodeScreen()),
+                  MaterialPageRoute(builder: (context) => const PlayerScreen()),
                 );
               });
             },

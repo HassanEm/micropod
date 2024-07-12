@@ -4,8 +4,8 @@ import 'package:micropod/models/universal_audio_player.dart';
 import 'package:micropod/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-class EpisodeScreen extends StatelessWidget {
-  const EpisodeScreen({super.key});
+class PlayerScreen extends StatelessWidget {
+  const PlayerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
