@@ -3,6 +3,7 @@ import 'package:micropod/components/podcast_cell_widget.dart';
 import 'package:micropod/components/universal_scaffold.dart';
 import 'package:micropod/models/podcast_pool.dart';
 import 'package:micropod/utils/utils.dart';
+import 'package:podcast_search/podcast_search.dart';
 import 'package:provider/provider.dart';
 
 class InitScreen extends StatefulWidget {
@@ -17,14 +18,8 @@ class _InitScreenState extends State<InitScreen> {
 
   final List<Widget> _screenOptions = const <Widget>[
     _HomeScreen(),
-    Text(
-      'Index 1: Business',
-      // style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      // style: optionStyle,
-    ),
+    Text('Index 1: Faverate'),
+    Text('Index 2: Search'),
   ];
 
   @override
@@ -90,17 +85,21 @@ class _HomeScreen extends StatelessWidget {
           q: PoolQuery(),
           title: "Worl Wide",
         ),
+        _PodcastSectionWidget(
+          q: PoolQuery(country: Country.germany),
+          title: "Best of Germany",
+        ),
+        _PodcastSectionWidget(
+          q: PoolQuery(country: Country.iran),
+          title: "Best of Iran",
+        ),
+        _PodcastSectionWidget(
+          q: PoolQuery(genre: "Business"),
+          title: "Business",
+        ),
         // _PodcastSectionWidget(
-        //   q: PoolQuery(country: Country.germany),
-        //   title: "Best of Germany",
-        // ),
-        // _PodcastSectionWidget(
-        //   q: PoolQuery(country: Country.iran),
-        //   title: "Best of Iran",
-        // ),
-        // _PodcastSectionWidget(
-        //   q: PoolQuery(genre: "Business"),
-        //   title: "Business",
+        //   q: PoolQuery(language: "Fr"),
+        //   title: "French",
         // ),
       ],
     );
