@@ -82,14 +82,7 @@ class PodcastCellWidget extends StatelessWidget {
                             color: Colors.red,
                           ),
                           onPressed: () async {
-                            print(podcast.rssUrl);
-                            Podcast p =
-                                await Podcast.loadFeed(url: podcast.rssUrl);
-                            // print("block===> ${p.block.first}");
-                            print("guid===> ${p.guid}");
-                            print("link===> ${p.link}");
-                            // print("value===> ${p.}");
-
+                            await Podcast.loadFeed(url: podcast.rssUrl);
                             podcast.toggleFavorite();
                           },
                           icon: const Icon(Icons.favorite_border));

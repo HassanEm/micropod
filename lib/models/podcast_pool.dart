@@ -42,9 +42,7 @@ class PodcastPool extends ChangeNotifier {
             channelName: element.artistName ?? "unknown",
             poosterUrl: element.artworkUrl600))
         .toList();
-    for (var element in podcasts ?? <PodcastModel>[]) {
-      print(element.rssUrl);
-    }
+
     notifyListeners();
     return podcasts;
   }
