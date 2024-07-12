@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:micropod/models/universal_audio_player.dart';
 import 'package:micropod/screens/episode_screen.dart';
+import 'package:micropod/utils/utils.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:provider/provider.dart';
 
@@ -122,10 +123,18 @@ class _MiniPlayer extends StatelessWidget {
                 child: child,
               ),
             ),
-            title: Text(source.title),
+            title: RichText(
+                text: TextSpan(text: source.title, children: [
+                  TextSpan(
+                      text: " - ${source.publicationDate?.displayFormat}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall
+                          ?.apply(color: Colors.grey))
+                ]),
+                maxLines: 1),
             subtitle: Text(
-              source.content?.substring(3, (source.content?.length ?? 0) - 5) ??
-                  "No description available",
+              source.description,
               maxLines: 1,
             ),
             trailing: IconButton(
