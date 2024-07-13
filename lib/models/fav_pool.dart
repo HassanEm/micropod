@@ -5,6 +5,30 @@ import 'package:podcast_search/podcast_search.dart';
 class FavPool extends ChangeNotifier {
   final List<PodcastModel> _podcasts = [];
   List<PodcastModel> get podcasts => _podcasts;
+  String? get favGener {
+    List<String> geners =
+        podcasts.map((p) => p.gener).expand((g) => g).toList();
+    geners.removeWhere((g) => g == "Podcasts");
+    Map<String, int> countMap = {};
+
+    for (var gener in geners) {
+      if (countMap.containsKey(gener)) {
+        countMap[gener] = countMap[gener]! + 1;
+      } else {
+        countMap[gener] = 1;
+      }
+    }
+    String mostUsed = "";
+    int maxCount = 0;
+    countMap.forEach((gener, count) {
+      if (count > maxCount) {
+        maxCount = count;
+        mostUsed = gener;
+      }
+    });
+
+    return mostUsed;
+  }
 
   void addPodcast(PodcastModel podcast) {
     _podcasts.add(podcast);

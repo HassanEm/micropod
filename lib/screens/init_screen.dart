@@ -236,18 +236,69 @@ class _FavirateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final favPool = Provider.of<FavPool>(context);
-    return SizedBox(
-      height: 252,
-      child: ListView.separated(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          scrollDirection: Axis.horizontal,
-          itemCount: favPool.podcasts.length,
-          separatorBuilder: (_, __) => const SizedBox(width: 8),
-          itemBuilder: (context, i) => SizedBox(
-              width: 150,
-              height: 180,
-              child: PodcastCellWidget(favPool.podcasts[i]))),
-    );
+    return Consumer<FavPool>(builder: (context, favPool, _) {
+      if (favPool.episodes.isEmpty && favPool.podcasts.isEmpty) {
+        return const Center(
+          child: Text(
+            "No any favorite items",
+            textAlign: TextAlign.center,
+          ),
+        );
+      }
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            Builder(
+              builder: (context) {
+                if (favPool.favGener == null || favPool.favGener!.isEmpty) {
+                  return const SizedBox();
+                } else {
+                  final color = letterToMateriaColor(favPool.favGener![0]);
+                  return Container(
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    width: double.maxFinite,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: color.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                            text: "Your Favorite Subject is",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.apply(color: color),
+                            children: [
+                              const TextSpan(text: "\n"),
+                              TextSpan(
+                                  text: favPool.favGener,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium
+                                      ?.apply(color: color))
+                            ])),
+                  );
+                }
+              },
+            ),
+            SizedBox(
+              height: 252,
+              child: ListView.separated(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: favPool.podcasts.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  itemBuilder: (context, i) => SizedBox(
+                      width: 150,
+                      height: 180,
+                      child: PodcastCellWidget(favPool.podcasts[i]))),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
