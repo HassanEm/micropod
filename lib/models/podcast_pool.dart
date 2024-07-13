@@ -5,7 +5,8 @@ import 'package:podcast_search/podcast_search.dart';
 
 class PodcastPool extends ChangeNotifier {
   PodcastPool({PoolQuery? poolQuery}) {
-    fetch(poolQuery: poolQuery);
+    q = poolQuery ?? PoolQuery();
+    fetch();
   }
 
   FetchState _fetchState = FetchState.unfetched;
@@ -13,10 +14,11 @@ class PodcastPool extends ChangeNotifier {
   String? _error;
   String? get erorr => _error;
   final search = Search();
+  PoolQuery q = PoolQuery();
   Future<List<PodcastModel>?> fetch({PoolQuery? poolQuery}) async {
     _fetchState = FetchState.fetching;
     notifyListeners();
-    final q = poolQuery ?? PoolQuery();
+    if (poolQuery != null) q = poolQuery;
 
     /// Search for podcasts with 'widgets' in the title.
     final SearchResult results = await search.charts(
