@@ -110,7 +110,7 @@ class PodcastCellWidget extends StatelessWidget {
                                               BorderRadius.circular(8)),
                                       backgroundColor: Colors.blueGrey.shade900,
                                       content: const Text(
-                                        "Podcast is back as favirate",
+                                        "Podcast is back as favorite",
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ));
