@@ -16,8 +16,17 @@ class InitScreen extends StatefulWidget {
 class _InitScreenState extends State<InitScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screenOptions = const <Widget>[
-    _HomeScreen(),
+  final List<Widget> _screenOptions = <Widget>[
+    _HomeScreen(
+      pools: {
+        "Worl Wide": PodcastPool(),
+        "Best of Germany":
+            PodcastPool(poolQuery: PoolQuery(country: Country.germany)),
+        "Best of Iran":
+            PodcastPool(poolQuery: PoolQuery(country: Country.iran)),
+        "Business": PodcastPool(poolQuery: PoolQuery(genre: "Business")),
+      },
+    ),
     Text('Index 1: Faverate'),
     Text('Index 2: Search'),
   ];
@@ -74,46 +83,30 @@ class _InitScreenState extends State<InitScreen> {
 }
 
 class _HomeScreen extends StatelessWidget {
-  const _HomeScreen({super.key});
+  const _HomeScreen({required this.pools, super.key});
+
+  final Map<String, PodcastPool> pools;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      children: [
-        _PodcastSectionWidget(
-          q: PoolQuery(),
-          title: "Worl Wide",
-        ),
-        _PodcastSectionWidget(
-          q: PoolQuery(country: Country.germany),
-          title: "Best of Germany",
-        ),
-        _PodcastSectionWidget(
-          q: PoolQuery(country: Country.iran),
-          title: "Best of Iran",
-        ),
-        _PodcastSectionWidget(
-          q: PoolQuery(genre: "Business"),
-          title: "Business",
-        ),
-        // _PodcastSectionWidget(
-        //   q: PoolQuery(language: "Fr"),
-        //   title: "French",
-        // ),
-      ],
-    );
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        children: pools.entries
+            .map((entry) =>
+                _PodcastSectionWidget(title: entry.key, pool: entry.value))
+            .toList());
   }
 }
 
 class _PodcastSectionWidget extends StatelessWidget {
-  const _PodcastSectionWidget({required this.q, required this.title});
-  final PoolQuery q;
+  const _PodcastSectionWidget({required this.pool, required this.title});
+  // final PoolQuery q;
   final String title;
+  final PodcastPool pool;
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<PodcastPool>(
-        create: (context) => PodcastPool(poolQuery: q),
+    return ChangeNotifierProvider.value(
+        value: pool,
         builder: (context, _) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +139,7 @@ class _PodcastSectionWidget extends StatelessWidget {
                               onPressed: pool.fetchState == FetchState.fetching
                                   ? null
                                   : () {
-                                      pool.fetch(poolQuery: q);
+                                      pool.fetch();
                                     },
                               child: const Text("REFRESH"))
                         ],
