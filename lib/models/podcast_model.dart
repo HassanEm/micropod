@@ -23,10 +23,4 @@ class PodcastModel extends ChangeNotifier {
   String get channelName => _channelName;
   final String? _posterUrl;
   String? get poosterUrl => _posterUrl;
-  bool _favorite = false;
-  bool get favorite => _favorite;
-  void toggleFavorite() {
-    _favorite = !_favorite;
-    notifyListeners();
-  }
 }

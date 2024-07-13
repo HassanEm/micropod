@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:micropod/components/podcast_cell_widget.dart';
 import 'package:micropod/components/universal_scaffold.dart';
+import 'package:micropod/models/fav_pool.dart';
 import 'package:micropod/models/podcast_pool.dart';
 import 'package:micropod/utils/utils.dart';
 import 'package:podcast_search/podcast_search.dart';
@@ -27,7 +28,7 @@ class _InitScreenState extends State<InitScreen> {
         "Business": PodcastPool(poolQuery: PoolQuery(genre: "Business")),
       },
     ),
-    Text('Index 1: Faverate'),
+    const _FavirateScreen(),
     Text('Index 2: Search'),
   ];
 
@@ -68,7 +69,7 @@ class _InitScreenState extends State<InitScreen> {
               ),
             ],
             currentIndex: _selectedIndex,
-            selectedItemColor: Colors.amber[800],
+            selectedItemColor: Colors.amber.shade800,
             onTap: _onItemTapped,
           ),
         ),
@@ -166,16 +167,14 @@ class _PodcastSectionWidget extends StatelessWidget {
   }
 }
 
-class BottomNavigationBarExample extends StatefulWidget {
-  const BottomNavigationBarExample({super.key});
+class _BottomNavigationBar extends StatefulWidget {
+  const _BottomNavigationBar({super.key});
 
   @override
-  State<BottomNavigationBarExample> createState() =>
-      _BottomNavigationBarExampleState();
+  State<_BottomNavigationBar> createState() => _BottomNavigationBarState();
 }
 
-class _BottomNavigationBarExampleState
-    extends State<BottomNavigationBarExample> {
+class _BottomNavigationBarState extends State<_BottomNavigationBar> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -228,6 +227,27 @@ class _BottomNavigationBarExampleState
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
+    );
+  }
+}
+
+class _FavirateScreen extends StatelessWidget {
+  const _FavirateScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final favPool = Provider.of<FavPool>(context);
+    return SizedBox(
+      height: 252,
+      child: ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          scrollDirection: Axis.horizontal,
+          itemCount: favPool.podcasts.length,
+          separatorBuilder: (_, __) => const SizedBox(width: 8),
+          itemBuilder: (context, i) => SizedBox(
+              width: 150,
+              height: 180,
+              child: PodcastCellWidget(favPool.podcasts[i]))),
     );
   }
 }
