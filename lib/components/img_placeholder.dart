@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:micropod/utils/utils.dart';
 
 class ImgPlaceholder extends StatelessWidget {
   const ImgPlaceholder(
@@ -30,21 +31,5 @@ class ImgPlaceholder extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  MaterialColor letterToMateriaColor(String letter) {
-    final x = letter.codeUnits.first;
-    const int oldMin = 0;
-    const int oldMax = 150;
-    const int newMin = 0;
-    const int newMax = 17;
-    int newNum =
-        ((x - oldMin) * (newMax - newMin) / (oldMax - oldMin) + newMin).round();
-    if (newNum > 18) {
-      newNum = 17;
-    } else if (newNum < 0) {
-      newNum = 0;
-    }
-    return Colors.primaries[newNum];
   }
 }
