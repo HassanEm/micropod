@@ -36,11 +36,7 @@ class PodcastCellWidget extends StatelessWidget {
                             preffredLetter: podcast.name[0],
                           )
                         : Image(
-                            image:
-                                //  podcast.poosterUrl == null
-                                //     ? const AssetImage('assets/defualt__pooster.jpg')
-                                //     :
-                                NetworkImage(podcast.poosterUrl!),
+                            image: NetworkImage(podcast.poosterUrl!),
                             frameBuilder: (context, child, frame,
                                     wasSynchronouslyLoaded) =>
                                 Container(
@@ -96,6 +92,10 @@ class PodcastCellWidget extends StatelessWidget {
                               favPool.removePodcast(podcast);
                               final messenger = ScaffoldMessenger.of(context);
                               messenger.showSnackBar(SnackBar(
+                                behavior: SnackBarBehavior.floating,
+                                margin: const EdgeInsets.all(8),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
                                 backgroundColor: Colors.blueGrey.shade900,
                                 action: SnackBarAction(
                                   textColor: Colors.amber.shade800,
@@ -103,6 +103,11 @@ class PodcastCellWidget extends StatelessWidget {
                                   onPressed: () {
                                     favPool.undoRemovePodcast();
                                     messenger.showSnackBar(SnackBar(
+                                      behavior: SnackBarBehavior.floating,
+                                      margin: const EdgeInsets.all(8),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
                                       backgroundColor: Colors.blueGrey.shade900,
                                       content: const Text(
                                         "Podcast is back as favirate",

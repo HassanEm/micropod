@@ -74,7 +74,7 @@ class UniversalScaffold extends StatelessWidget {
       endDrawer: endDrawer,
       onEndDrawerChanged: onDrawerChanged,
       bottomNavigationBar: bottomNavigationBar == null
-          ? const _MiniPlayer()
+          ? const SafeArea(child: _MiniPlayer())
           : Column(
               mainAxisSize: MainAxisSize.min,
               children: [const _MiniPlayer(), bottomNavigationBar!]),
@@ -104,60 +104,58 @@ class _MiniPlayer extends StatelessWidget {
         return const SizedBox();
       } else {
         final Episode source = player.source!;
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-            child: ListTile(
-              dense: true,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
-              tileColor: Colors.grey.shade800,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 6),
-              leading: Hero(
-                tag: source,
-                child: source.imageUrl == null
-                    ? ImgPlaceholder(preffredLetter: source.title[0])
-                    : Image(
-                        image: NetworkImage(source.imageUrl!),
-                        frameBuilder:
-                            (context, child, frame, wasSynchronouslyLoaded) =>
-                                Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8)),
-                          child: child,
-                        ),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+          child: ListTile(
+            dense: true,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8))),
+            tileColor: Colors.grey.shade800,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+            leading: Hero(
+              tag: source,
+              child: source.imageUrl == null
+                  ? ImgPlaceholder(preffredLetter: source.title[0])
+                  : Image(
+                      image: NetworkImage(source.imageUrl!),
+                      frameBuilder:
+                          (context, child, frame, wasSynchronouslyLoaded) =>
+                              Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8)),
+                        child: child,
                       ),
-              ),
-              title: RichText(
-                  text: TextSpan(text: source.title, children: [
-                    TextSpan(
-                        text: " - ${source.publicationDate?.displayFormat}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall
-                            ?.apply(color: Colors.grey))
-                  ]),
-                  maxLines: 1),
-              subtitle: Text(
-                source.description,
-                maxLines: 1,
-              ),
-              trailing: IconButton(
-                icon: player.isPlaying || player.loading
-                    ? const Icon(Icons.pause_rounded)
-                    : const Icon(Icons.play_arrow_rounded),
-                onPressed: () {
-                  player.togglePlay();
-                },
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PlayerScreen()),
-                );
+                    ),
+            ),
+            title: RichText(
+                text: TextSpan(text: source.title, children: [
+                  TextSpan(
+                      text: " - ${source.publicationDate?.displayFormat}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall
+                          ?.apply(color: Colors.grey))
+                ]),
+                maxLines: 1),
+            subtitle: Text(
+              source.description,
+              maxLines: 1,
+            ),
+            trailing: IconButton(
+              icon: player.isPlaying || player.loading
+                  ? const Icon(Icons.pause_rounded)
+                  : const Icon(Icons.play_arrow_rounded),
+              onPressed: () {
+                player.togglePlay();
               },
             ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PlayerScreen()),
+              );
+            },
           ),
         );
       }
