@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:micropod/components/img_placeholder.dart';
 import 'package:micropod/models/podcast_model.dart';
 import 'package:micropod/screens/podcast_screen.dart';
-import 'package:podcast_search/podcast_search.dart';
+// import 'package:podcast_search/podcast_search.dart';
 import 'package:provider/provider.dart';
 
 class PodcastCellWidget extends StatelessWidget {
@@ -29,19 +30,25 @@ class PodcastCellWidget extends StatelessWidget {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image(
-                      image: podcast.poosterUrl == null
-                          ? const AssetImage('assets/defualt__pooster.jpg')
-                          : NetworkImage(podcast.poosterUrl!),
-                      frameBuilder:
-                          (context, child, frame, wasSynchronouslyLoaded) =>
-                              Container(
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8)),
-                        child: child,
-                      ),
-                    ),
+                    podcast.poosterUrl == null
+                        ? ImgPlaceholder(
+                            preffredLetter: podcast.name[0],
+                          )
+                        : Image(
+                            image:
+                                //  podcast.poosterUrl == null
+                                //     ? const AssetImage('assets/defualt__pooster.jpg')
+                                //     :
+                                NetworkImage(podcast.poosterUrl!),
+                            frameBuilder: (context, child, frame,
+                                    wasSynchronouslyLoaded) =>
+                                Container(
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: child,
+                            ),
+                          ),
                     ListTile(
                       minTileHeight: 0,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 4),
