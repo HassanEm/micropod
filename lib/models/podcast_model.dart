@@ -6,12 +6,15 @@ class PodcastModel extends ChangeNotifier {
       required String name,
       required String channelName,
       required String rssUrl,
-      String? poosterUrl})
+      String? poosterUrl,
+      List<String> gener = const <String>[]})
       : _posterUrl = poosterUrl,
         _channelName = channelName,
         _name = name,
         _rssUrl = rssUrl,
-        _id = id;
+        _id = id {
+    _gener.addAll(gener);
+  }
 
   final String _id;
   String get id => _id;
@@ -23,4 +26,6 @@ class PodcastModel extends ChangeNotifier {
   String get channelName => _channelName;
   final String? _posterUrl;
   String? get poosterUrl => _posterUrl;
+  final List<String> _gener = [];
+  List<String> get gener => _gener;
 }
