@@ -37,7 +37,6 @@ class _InitScreenState extends State<InitScreen> {
       pools.addAll({
         "Business": PodcastPool.chart(poolQuery: PoolQuery(genre: "Business")),
         "Comedy": PodcastPool.chart(poolQuery: PoolQuery(genre: "Comedy")),
-        "BPlus": PodcastPool.search(poolQuery: PoolQuery(term: "bplus")),
       });
       print("geo json===> $json");
       _screenOptions.removeAt(0);
@@ -53,7 +52,7 @@ class _InitScreenState extends State<InitScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screenOptions = <Widget>[
-    const Center(child: CircularProgressIndicator()),
+    const Center(child: CupertinoActivityIndicator()),
     const _FavoriteScreen(),
     _SearchSection(
       pool: PodcastPool.search(),

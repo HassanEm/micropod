@@ -20,8 +20,7 @@ class PodcastCellWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => PodcastScreen(
-                        name: podcast.name, rssFeed: podcast.rssUrl)),
+                    builder: (context) => PodcastScreen(podcast: podcast)),
               );
             },
             child: Stack(
