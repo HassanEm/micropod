@@ -30,6 +30,8 @@ class EpisodeCellWidget extends StatelessWidget {
               preffredLetter: episode.title[0], preffredLetterSize: 32)
           : Image(
               image: NetworkImage(episode.imageUrl!),
+              errorBuilder: (_, __, ___) => ImgPlaceholder(
+                  preffredLetter: episode.title[0], preffredLetterSize: 32),
               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
                   Container(
                 clipBehavior: Clip.antiAlias,

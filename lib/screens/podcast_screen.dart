@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:micropod/components/episode_cell_widget.dart';
-import 'package:micropod/components/img_placeholder.dart';
 import 'package:micropod/components/universal_scaffold.dart';
 import 'package:micropod/models/podcast_model.dart';
 import 'package:micropod/utils/utils.dart';
