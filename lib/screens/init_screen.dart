@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:micropod/components/podcast_cell_widget.dart';
 import 'package:micropod/components/universal_scaffold.dart';
@@ -18,8 +19,10 @@ class _InitScreenState extends State<InitScreen> {
   @override
   void initState() {
     super.initState();
+
+    /// Home
     Map<String, PodcastPool> pools = {
-      "Worl Wide": PodcastPool(),
+      "Worl Wide": PodcastPool.chart(),
     };
     HttpService().getGeolocation().then((json) {
       if (json != null) {
@@ -27,13 +30,14 @@ class _InitScreenState extends State<InitScreen> {
         if (counrty != null) {
           pools.addAll({
             "Best of ${counrty.name}":
-                PodcastPool(poolQuery: PoolQuery(country: counrty))
+                PodcastPool.chart(poolQuery: PoolQuery(country: counrty))
           });
         }
       }
       pools.addAll({
-        "Business": PodcastPool(poolQuery: PoolQuery(genre: "Business")),
-        "Comedy": PodcastPool(poolQuery: PoolQuery(genre: "Comedy")),
+        "Business": PodcastPool.chart(poolQuery: PoolQuery(genre: "Business")),
+        "Comedy": PodcastPool.chart(poolQuery: PoolQuery(genre: "Comedy")),
+        "BPlus": PodcastPool.search(poolQuery: PoolQuery(term: "bplus")),
       });
       print("geo json===> $json");
       _screenOptions.removeAt(0);
@@ -51,7 +55,9 @@ class _InitScreenState extends State<InitScreen> {
   final List<Widget> _screenOptions = <Widget>[
     const Center(child: CircularProgressIndicator()),
     const _FavirateScreen(),
-    Text('Index 2: Search'),
+    _SearchSection(
+      pool: PodcastPool.search(),
+    )
   ];
 
   @override
@@ -123,7 +129,6 @@ class _HomeScreen extends StatelessWidget {
 
 class _PodcastSectionWidget extends StatelessWidget {
   const _PodcastSectionWidget({required this.pool, required this.title});
-  // final PoolQuery q;
   final String title;
   final PodcastPool pool;
   @override
@@ -135,7 +140,8 @@ class _PodcastSectionWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                 child: Text(
                   title,
                   style: Theme.of(context)
@@ -322,5 +328,61 @@ class _FavirateScreen extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+class _SearchSection extends StatefulWidget {
+  const _SearchSection({required this.pool, super.key});
+  final PodcastPool pool;
+
+  @override
+  State<_SearchSection> createState() => _SearchSectionState();
+}
+
+class _SearchSectionState extends State<_SearchSection> {
+  @override
+  void initState() {
+    queryTerm = widget.pool.q.term;
+    super.initState();
+  }
+
+  String queryTerm = "";
+  bool searching = false;
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          CupertinoTextField(
+            prefix: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: Icon(Icons.search, color: Colors.grey)),
+            suffix: searching
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: CupertinoActivityIndicator(),
+                  )
+                : null,
+            controller: TextEditingController(text: queryTerm),
+            placeholder: "What you looking for? 👁‍🗨",
+            style: const TextStyle(color: Colors.white),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.grey.shade800,
+            ),
+            onSubmitted: (value) async {
+              queryTerm = value;
+              setState(() => searching = true);
+              await widget.pool.newSearch(PoolQuery(term: value));
+              setState(() => searching = false);
+            },
+          ),
+          if (queryTerm.isNotEmpty == true)
+            _PodcastSectionWidget(
+                pool: widget.pool, title: 'Result for "$queryTerm"')
+        ],
+      ),
+    );
   }
 }
