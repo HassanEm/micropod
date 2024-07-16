@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:micropod/components/img_placeholder.dart';
-import 'package:micropod/models/fav_pool.dart';
+import 'package:micropod/models/favorites_pool.dart';
 import 'package:micropod/models/podcast_model.dart';
 import 'package:micropod/screens/podcast_screen.dart';
 // import 'package:podcast_search/podcast_search.dart';
@@ -73,7 +73,7 @@ class PodcastCellWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                Selector<FavPool, bool>(
+                Selector<FavoritesPool, bool>(
                     selector: (_, model) => model.podcasts.contains(podcast),
                     builder: (context, value, _) {
                       return IconButton(
@@ -86,8 +86,8 @@ class PodcastCellWidget extends StatelessWidget {
                             color: Colors.red,
                           ),
                           onPressed: () async {
-                            final favPool =
-                                Provider.of<FavPool>(context, listen: false);
+                            final favPool = Provider.of<FavoritesPool>(context,
+                                listen: false);
                             if (value) {
                               favPool.removePodcast(podcast);
                               final messenger = ScaffoldMessenger.of(context);

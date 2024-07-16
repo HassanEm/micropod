@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:micropod/models/podcast_model.dart';
 import 'package:podcast_search/podcast_search.dart';
 
-class FavPool extends ChangeNotifier {
+class FavoritesPool extends ChangeNotifier {
   final List<PodcastModel> _podcasts = [];
   List<PodcastModel> get podcasts => _podcasts;
   String? get favGener {

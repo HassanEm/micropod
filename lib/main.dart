@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:micropod/models/fav_pool.dart';
+import 'package:micropod/models/favorites_pool.dart';
 import 'package:micropod/models/universal_audio_player.dart';
 import 'package:micropod/screens/init_screen.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UniversalAudioPlayer()),
-        ChangeNotifierProvider(create: (context) => FavPool())
+        ChangeNotifierProvider(create: (context) => FavoritesPool())
       ],
       builder: (context, child) => MaterialApp(
         title: 'Flutter Demo',

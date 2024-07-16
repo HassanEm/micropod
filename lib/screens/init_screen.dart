@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:micropod/components/podcast_cell_widget.dart';
 import 'package:micropod/components/universal_scaffold.dart';
-import 'package:micropod/models/fav_pool.dart';
+import 'package:micropod/models/favorites_pool.dart';
 import 'package:micropod/models/podcast_pool.dart';
 import 'package:micropod/utils/http_services.dart';
 import 'package:micropod/utils/utils.dart';
@@ -54,7 +54,7 @@ class _InitScreenState extends State<InitScreen> {
 
   final List<Widget> _screenOptions = <Widget>[
     const Center(child: CircularProgressIndicator()),
-    const _FavirateScreen(),
+    const _FavoriteScreen(),
     _SearchSection(
       pool: PodcastPool.search(),
     )
@@ -72,10 +72,6 @@ class _InitScreenState extends State<InitScreen> {
                 .titleLarge
                 ?.copyWith(fontWeight: FontWeight.w700),
           ),
-          actions: [
-            IconButton(
-                onPressed: () {}, icon: const Icon(Icons.favorite_border))
-          ],
         ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
@@ -259,12 +255,12 @@ class _BottomNavigationBarState extends State<_BottomNavigationBar> {
   }
 }
 
-class _FavirateScreen extends StatelessWidget {
-  const _FavirateScreen({super.key});
+class _FavoriteScreen extends StatelessWidget {
+  const _FavoriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FavPool>(builder: (context, favPool, _) {
+    return Consumer<FavoritesPool>(builder: (context, favPool, _) {
       if (favPool.episodes.isEmpty && favPool.podcasts.isEmpty) {
         return const Center(
           child: Text(
