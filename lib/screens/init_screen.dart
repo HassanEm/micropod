@@ -3,8 +3,8 @@ import 'package:micropod/components/podcast_cell_widget.dart';
 import 'package:micropod/components/universal_scaffold.dart';
 import 'package:micropod/models/fav_pool.dart';
 import 'package:micropod/models/podcast_pool.dart';
+import 'package:micropod/utils/http_services.dart';
 import 'package:micropod/utils/utils.dart';
-import 'package:podcast_search/podcast_search.dart';
 import 'package:provider/provider.dart';
 
 class InitScreen extends StatefulWidget {
@@ -15,19 +15,41 @@ class InitScreen extends StatefulWidget {
 }
 
 class _InitScreenState extends State<InitScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Map<String, PodcastPool> pools = {
+      "Worl Wide": PodcastPool(),
+    };
+    HttpService().getGeolocation().then((json) {
+      if (json != null) {
+        final counrty = countryCodeDict[json["country"]];
+        if (counrty != null) {
+          pools.addAll({
+            "Best of ${counrty.name}":
+                PodcastPool(poolQuery: PoolQuery(country: counrty))
+          });
+        }
+      }
+      pools.addAll({
+        "Business": PodcastPool(poolQuery: PoolQuery(genre: "Business")),
+        "Comedy": PodcastPool(poolQuery: PoolQuery(genre: "Comedy")),
+      });
+      print("geo json===> $json");
+      _screenOptions.removeAt(0);
+      _screenOptions.insert(
+          0,
+          _HomeScreen(
+            pools: pools,
+          ));
+      setState(() {});
+    });
+  }
+
   int _selectedIndex = 0;
 
   final List<Widget> _screenOptions = <Widget>[
-    _HomeScreen(
-      pools: {
-        "Worl Wide": PodcastPool(),
-        "Best of Germany":
-            PodcastPool(poolQuery: PoolQuery(country: Country.germany)),
-        "Best of Iran":
-            PodcastPool(poolQuery: PoolQuery(country: Country.iran)),
-        "Business": PodcastPool(poolQuery: PoolQuery(genre: "Business")),
-      },
-    ),
+    const Center(child: CircularProgressIndicator()),
     const _FavirateScreen(),
     Text('Index 2: Search'),
   ];

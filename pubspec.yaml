@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  http: ^1.2.1
   just_audio_windows: ^0.2.1
   just_audio: ^0.9.38
   xml2json: ^6.2.3
