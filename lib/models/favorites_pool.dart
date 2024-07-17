@@ -8,7 +8,6 @@ class FavoritesPool extends ChangeNotifier {
   String? get favGener {
     List<String> geners =
         podcasts.map((p) => p.gener).expand((g) => g).toList();
-    geners.removeWhere((g) => g == "Podcasts");
     Map<String, int> countMap = {};
 
     for (var gener in geners) {

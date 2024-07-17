@@ -59,6 +59,27 @@ class _PodcastScreenState extends State<PodcastScreen> {
                       title: Text(widget.podcast.name),
                     ),
                   ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 50,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: widget.podcast.gener.length,
+                        separatorBuilder: (_, __) => const SizedBox(width: 8),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, i) {
+                          final String g = widget.podcast.gener[i];
+                          return Chip(
+                              label: Text(g),
+                              labelStyle:
+                                  Theme.of(context).textTheme.labelSmall,
+                              side: BorderSide.none,
+                              color: WidgetStateProperty.all<Color?>(
+                                  (Colors.grey.shade800)));
+                        },
+                      ),
+                    ),
+                  ),
                   SliverList(
                       delegate: SliverChildListDelegate(
                           [const SizedBox(height: 16)])),

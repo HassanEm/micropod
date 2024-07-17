@@ -13,7 +13,7 @@ class PodcastModel extends ChangeNotifier {
         _name = name,
         _rssUrl = rssUrl,
         _id = id {
-    _gener.addAll(gener);
+    _gener.addAll(gener.where((g) => g != "Podcasts"));
   }
 
   final String _id;
