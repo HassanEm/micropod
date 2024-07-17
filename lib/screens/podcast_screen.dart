@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:micropod/components/episode_cell_widget.dart';
 import 'package:micropod/components/universal_scaffold.dart';
@@ -29,70 +28,72 @@ class _PodcastScreenState extends State<PodcastScreen> {
   @override
   Widget build(BuildContext context) {
     return UniversalScaffold(
-        body: podcast != null
-            ? CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    // centerTitle: true,
-                    pinned: true,
-                    expandedHeight: 300,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Container(
-                        foregroundDecoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                              Theme.of(context).canvasColor,
-                              Colors.transparent,
-                              Colors.transparent,
-                            ])),
-                        decoration: BoxDecoration(
-                            color: letterToMateriaColor(widget.podcast.name[0]),
-                            image: widget.podcast.poosterUrl != null
-                                ? DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        widget.podcast.poosterUrl!))
-                                : null),
-                      ),
-                      title: Text(widget.podcast.name),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 50,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: widget.podcast.gener.length,
-                        separatorBuilder: (_, __) => const SizedBox(width: 8),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, i) {
-                          final String g = widget.podcast.gener[i];
-                          return Chip(
-                              label: Text(g),
-                              labelStyle:
-                                  Theme.of(context).textTheme.labelSmall,
-                              side: BorderSide.none,
-                              color: WidgetStateProperty.all<Color?>(
-                                  (Colors.grey.shade800)));
-                        },
-                      ),
-                    ),
-                  ),
-                  SliverList(
-                      delegate: SliverChildListDelegate(
-                          [const SizedBox(height: 16)])),
-                  SliverList.separated(
-                    separatorBuilder: (_, __) => const Divider(indent: 90),
-                    itemBuilder: (context, i) =>
-                        EpisodeCellWidget(podcast!.episodes[i]),
-                    itemCount: podcast!.episodes.length,
-                  )
-                ],
+        body: CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          pinned: true,
+          expandedHeight: 300,
+          flexibleSpace: FlexibleSpaceBar(
+            background: Container(
+              foregroundDecoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                    Theme.of(context).canvasColor,
+                    Colors.transparent,
+                    Colors.transparent,
+                  ])),
+              decoration: BoxDecoration(
+                  color: letterToMateriaColor(widget.podcast.name[0]),
+                  image: widget.podcast.poosterUrl != null
+                      ? DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(widget.podcast.poosterUrl!))
+                      : null),
+            ),
+            title: Text(widget.podcast.name),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: 50,
+            child: ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: widget.podcast.gener.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, i) {
+                final String g = widget.podcast.gener[i];
+                return Chip(
+                    label: Text(g),
+                    labelStyle: Theme.of(context).textTheme.labelSmall,
+                    side: BorderSide.none,
+                    color: WidgetStateProperty.all<Color?>(
+                        (Colors.grey.shade800)));
+              },
+            ),
+          ),
+        ),
+        SliverList(
+            delegate: SliverChildListDelegate([const SizedBox(height: 16)])),
+        podcast != null
+            ? SliverList.separated(
+                separatorBuilder: (_, __) => const Divider(indent: 90),
+                itemBuilder: (context, i) =>
+                    EpisodeCellWidget(podcast!.episodes[i]),
+                itemCount: podcast!.episodes.length,
               )
-            : const Center(
-                child: CupertinoActivityIndicator(),
-              ));
+            : SliverList(
+                delegate: SliverChildListDelegate([
+                SizedBox(
+                  height: 1,
+                  child: LinearProgressIndicator(
+                    color: letterToMateriaColor(widget.podcast.name[0]),
+                  ),
+                )
+              ]))
+      ],
+    ));
   }
 }
